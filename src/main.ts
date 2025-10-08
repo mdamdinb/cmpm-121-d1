@@ -23,7 +23,4 @@ button.addEventListener("click", () => {
   console.log("clicked", button, counterElement, counter);
 });
 
-setInterval(() => {
-  counter += 1;
-  counterElement.textContent = counter.toString();
-}, 1000);
+
