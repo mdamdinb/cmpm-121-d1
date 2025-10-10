@@ -7,6 +7,7 @@ document.body.innerHTML = `
 console.log("ello :3");
 
 let counter: number = 0;
+let lastTimestamp: number = 0;
 
 document.body.innerHTML = `
   <h1>CMPM 121 Project</h1>
@@ -23,7 +24,17 @@ button.addEventListener("click", () => {
   console.log("clicked", button, counterElement, counter);
 });
 
-setInterval(() => {
-  counter += 1;
-  counterElement.textContent = counter.toString();
-}, 1000);
+function animate(timestamp: number) {
+  if (lastTimestamp !== 0) {
+    const deltaTime = timestamp - lastTimestamp; //time in milliseconds
+    const increment = deltaTime / 1000; //convert it into seconds
+    counter += increment;
+    counterElement.textContent = counter.toFixed(2); //2 decimal places
+  }
+
+  lastTimestamp = timestamp;
+  requestAnimationFrame(animate);
+}
+
+//starts here
+requestAnimationFrame(animate);
