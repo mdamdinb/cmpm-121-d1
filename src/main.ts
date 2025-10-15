@@ -14,16 +14,20 @@ let countA: number = 0;
 let countB: number = 0;
 let countC: number = 0;
 
+let costA: number = 10;
+let costB: number = 100;
+let costC: number = 1000;
+
 document.body.innerHTML = `
   <h1>CMPM 121 Project</h1>
   <p>Counter: <span id="counter">0</span></p>
   <button id="increment">😱</button>
   <br><br>
-  <button id="upgradeA" disabled>Purchase A (Cost: 10, Rate: +0.1/sec)</button>
+  <button id="upgradeA" disabled>Purchase A (Cost: <span id="costA">10</span>, Rate: +0.1/sec)</button>
   <br>
-  <button id="upgradeB" disabled>Purchase B (Cost: 100, Rate: +2.0/sec)</button>
+  <button id="upgradeB" disabled>Purchase B (Cost: <span id="costB">100</span>, Rate: +2.0/sec)</button>
   <br>
-  <button id="upgradeC" disabled>Purchase C (Cost: 1000, Rate: +50/sec)</button>
+  <button id="upgradeC" disabled>Purchase C (Cost: <span id="costC">1000</span>, Rate: +50/sec)</button>
   <p>Growth Rate: <span id="growth-rate">0.00</span> units/sec</p>
   <p>A purchased: <span id="countA">0</span></p>
   <p>B purchased: <span id="countB">0</span></p>
@@ -46,11 +50,14 @@ const growthRateElement = document.getElementById("growth-rate")!;
 const countAElement = document.getElementById("countA")!;
 const countBElement = document.getElementById("countB")!;
 const countCElement = document.getElementById("countC")!;
+const costAElement = document.getElementById("costA")!;
+const costBElement = document.getElementById("costB")!;
+const costCElement = document.getElementById("costC")!;
 
 function updateUpgradeButton() { //have to wait till 10 sec
-  upgradeAButton.disabled = counter < 10;
-  upgradeBButton.disabled = counter < 100;
-  upgradeCButton.disabled = counter < 1000;
+  upgradeAButton.disabled = counter < costA;
+  upgradeBButton.disabled = counter < costB;
+  upgradeCButton.disabled = counter < costC;
 }
 
 button.addEventListener("click", () => {
@@ -61,39 +68,59 @@ button.addEventListener("click", () => {
 
 //to purchase upgrade
 upgradeAButton.addEventListener("click", () => {
-  if (counter >= 10) {
-    counter -= 10; //remove 10 units not reset
+  if (counter >= costA) {
+    counter -= costA;
     countA += 1;
-    growthRate += 1;
+    growthRate += 0.1;
+    costA *= 1.15;
     counterElement.textContent = counter.toFixed(2);
     growthRateElement.textContent = growthRate.toFixed(2);
     countAElement.textContent = countA.toString();
+    costAElement.textContent = costA.toFixed(2);
     updateUpgradeButton();
-    console.log("A purchased! Count:", countA, "New growth rate:", growthRate);
+    console.log(
+      "A purchased! Count:",
+      countA,
+      "New cost:",
+      costA.toFixed(2),
+      "Growth rate:",
+      growthRate,
+    );
   }
 });
 
 upgradeBButton.addEventListener("click", () => {
-  if (counter >= 100) {
-    counter -= 100;
+  if (counter >= costB) {
+    counter -= costB;
     countB += 1;
     growthRate += 2.0;
+    costB *= 1.15;
     counterElement.textContent = counter.toFixed(2);
     growthRateElement.textContent = growthRate.toFixed(2);
     countBElement.textContent = countB.toString();
+    costBElement.textContent = costB.toFixed(2);
     updateUpgradeButton();
-    console.log("B purchased! Count:", countB, "Growth rate:", growthRate);
+    console.log(
+      "B purchased! Count:",
+      countB,
+      "New cost:",
+      costB.toFixed(2),
+      "Growth rate:",
+      growthRate,
+    );
   }
 });
 
 upgradeCButton.addEventListener("click", () => {
-  if (counter >= 1000) {
-    counter -= 1000;
+  if (counter >= costC) {
+    counter -= costC;
     countC += 1;
     growthRate += 50;
+    costC *= 1.15;
     counterElement.textContent = counter.toFixed(2);
     growthRateElement.textContent = growthRate.toFixed(2);
     countCElement.textContent = countC.toString();
+    costCElement.textContent = costC.toFixed(2);
     updateUpgradeButton();
     console.log("C purchased! Count:", countC, "Growth rate:", growthRate);
   }
@@ -102,7 +129,7 @@ upgradeCButton.addEventListener("click", () => {
 function animate(timestamp: number) {
   if (lastTimestamp !== 0) {
     const deltaTime = timestamp - lastTimestamp; //time in milliseconds
-    const increment = deltaTime / 1000; //convert it into seconds
+    const increment = (deltaTime / 1000) * growthRate; //convert it into seconds
     counter += increment;
     counterElement.textContent = counter.toFixed(2); //2 decimal places
     updateUpgradeButton(); //checks if the button should be enabled/disabled
