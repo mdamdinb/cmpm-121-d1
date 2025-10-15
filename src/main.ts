@@ -19,19 +19,21 @@ let costB: number = 100;
 let costC: number = 1000;
 
 document.body.innerHTML = `
-  <h1>CMPM 121 Project</h1>
-  <p>Counter: <span id="counter">0</span></p>
-  <button id="increment">😱</button>
+  <h1>TikTak Likes Farm</h1>
+  <p>Likes: <span id="counter">0</span></p>
+  <button id="increment" style="font-size: 48px; padding: 20px;">❤️</button>
+  <p style="font-size: 12px; color: gray;">Click to generate likes!</p>
   <br><br>
-  <button id="upgradeA" disabled>Purchase A (Cost: <span id="costA">10</span>, Rate: +0.1/sec)</button>
+  <br><br>
+  <button id="upgradeA" disabled>Retweet Bot (Cost: <span id="costA">10</span> likes, Rate: +0.1/sec)</button>
   <br>
-  <button id="upgradeB" disabled>Purchase B (Cost: <span id="costB">100</span>, Rate: +2.0/sec)</button>
+  <button id="upgradeB" disabled>Influencer (Cost: <span id="costB">100</span> likes, Rate: +2.0/sec)</button>
   <br>
-  <button id="upgradeC" disabled>Purchase C (Cost: <span id="costC">1000</span>, Rate: +50/sec)</button>
-  <p>Growth Rate: <span id="growth-rate">0.00</span> units/sec</p>
-  <p>A purchased: <span id="countA">0</span></p>
-  <p>B purchased: <span id="countB">0</span></p>
-  <p>C purchased: <span id="countC">0</span></p>
+  <button id="upgradeC" disabled>Algorithm (Cost: <span id="costC">1000</span> likes, Rate: +50/sec)</button>
+  <p>Growth Rate: <span id="growth-rate">0.00</span> likes/sec</p>
+  <p>Retweet Bots purchased: <span id="countA">0</span></p>
+  <p>Influencers purchased: <span id="countB">0</span></p>
+  <p>Algorithms purchased: <span id="countC">0</span></p>
   <p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>
 `;
 
