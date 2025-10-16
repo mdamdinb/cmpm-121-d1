@@ -6,17 +6,34 @@ document.body.innerHTML = `
 `;
 console.log("ello :3");
 
+interface Item {
+  name: string;
+  cost: number;
+  rate: number;
+}
+
+const availableItems: Item[] = [
+  { name: "Retweet Bot", cost: 10, rate: 0.1 },
+  { name: "Influencer", cost: 100, rate: 2.0 },
+  { name: "Algorithm", cost: 1000, rate: 50 },
+];
+
 let counter: number = 0;
 let growthRate: number = 0;
 let lastTimestamp: number = 0;
 
-let countA: number = 0;
-let countB: number = 0;
-let countC: number = 0;
+const counts: number[] = [0, 0, 0];
+const costs: number[] = [10, 100, 1000];
 
-let costA: number = 10;
-let costB: number = 100;
-let costC: number = 1000;
+// LOOP to generate button HTML
+let upgradeButtonsHTML = "";
+for (let i = 0; i < availableItems.length; i++) {
+  const item = availableItems[i];
+  upgradeButtonsHTML += `
+    <button id="upgrade${i}" disabled>${item.name} (Cost: <span id="cost${i}">${item.cost}</span> likes, Rate: +${item.rate}/sec)</button>
+    <br>
+  `;
+}
 
 document.body.innerHTML = `
   <h1>TikTak Likes Farm</h1>
@@ -25,41 +42,39 @@ document.body.innerHTML = `
   <p style="font-size: 12px; color: gray;">Click to generate likes!</p>
   <br><br>
   <br><br>
-  <button id="upgradeA" disabled>Retweet Bot (Cost: <span id="costA">10</span> likes, Rate: +0.1/sec)</button>
-  <br>
-  <button id="upgradeB" disabled>Influencer (Cost: <span id="costB">100</span> likes, Rate: +2.0/sec)</button>
-  <br>
-  <button id="upgradeC" disabled>Algorithm (Cost: <span id="costC">1000</span> likes, Rate: +50/sec)</button>
+  ${upgradeButtonsHTML}
   <p>Growth Rate: <span id="growth-rate">0.00</span> likes/sec</p>
-  <p>Retweet Bots purchased: <span id="countA">0</span></p>
-  <p>Influencers purchased: <span id="countB">0</span></p>
-  <p>Algorithms purchased: <span id="countC">0</span></p>
-  <p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>
 `;
+
+// LOOP to generate stats HTML
+for (let i = 0; i < availableItems.length; i++) {
+  const item = availableItems[i];
+  document.body.innerHTML +=
+    `<p>${item.name}s purchased: <span id="count${i}">0</span></p>`;
+}
+
+document.body.innerHTML +=
+  `<p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>`;
 
 const button = document.getElementById("increment")!;
 const counterElement = document.getElementById("counter")!;
-const upgradeAButton = document.getElementById(
-  "upgradeA",
-)! as HTMLButtonElement;
-const upgradeBButton = document.getElementById(
-  "upgradeB",
-)! as HTMLButtonElement;
-const upgradeCButton = document.getElementById(
-  "upgradeC",
-)! as HTMLButtonElement;
 const growthRateElement = document.getElementById("growth-rate")!;
-const countAElement = document.getElementById("countA")!;
-const countBElement = document.getElementById("countB")!;
-const countCElement = document.getElementById("countC")!;
-const costAElement = document.getElementById("costA")!;
-const costBElement = document.getElementById("costB")!;
-const costCElement = document.getElementById("costC")!;
 
+const upgradeButtons: HTMLButtonElement[] = [];
+const costElements: HTMLElement[] = [];
+const countElements: HTMLElement[] = [];
+
+for (let i = 0; i < availableItems.length; i++) {
+  upgradeButtons.push(
+    document.getElementById(`upgrade${i}`)! as HTMLButtonElement,
+  );
+  costElements.push(document.getElementById(`cost${i}`)!);
+  countElements.push(document.getElementById(`count${i}`)!);
+}
 function updateUpgradeButton() { //have to wait till 10 sec
-  upgradeAButton.disabled = counter < costA;
-  upgradeBButton.disabled = counter < costB;
-  upgradeCButton.disabled = counter < costC;
+  for (let i = 0; i < availableItems.length; i++) {
+    upgradeButtons[i].disabled = counter < costs[i];
+  }
 }
 
 button.addEventListener("click", () => {
@@ -69,64 +84,29 @@ button.addEventListener("click", () => {
 });
 
 //to purchase upgrade
-upgradeAButton.addEventListener("click", () => {
-  if (counter >= costA) {
-    counter -= costA;
-    countA += 1;
-    growthRate += 0.1;
-    costA *= 1.15;
-    counterElement.textContent = counter.toFixed(2);
-    growthRateElement.textContent = growthRate.toFixed(2);
-    countAElement.textContent = countA.toString();
-    costAElement.textContent = costA.toFixed(2);
-    updateUpgradeButton();
-    console.log(
-      "A purchased! Count:",
-      countA,
-      "New cost:",
-      costA.toFixed(2),
-      "Growth rate:",
-      growthRate,
-    );
-  }
-});
+for (let i = 0; i < availableItems.length; i++) {
+  upgradeButtons[i].addEventListener("click", () => {
+    if (counter >= costs[i]) {
+      const item = availableItems[i];
+      counter -= costs[i];
+      counts[i] += 1;
+      growthRate += item.rate;
+      costs[i] *= 1.15;
 
-upgradeBButton.addEventListener("click", () => {
-  if (counter >= costB) {
-    counter -= costB;
-    countB += 1;
-    growthRate += 2.0;
-    costB *= 1.15;
-    counterElement.textContent = counter.toFixed(2);
-    growthRateElement.textContent = growthRate.toFixed(2);
-    countBElement.textContent = countB.toString();
-    costBElement.textContent = costB.toFixed(2);
-    updateUpgradeButton();
-    console.log(
-      "B purchased! Count:",
-      countB,
-      "New cost:",
-      costB.toFixed(2),
-      "Growth rate:",
-      growthRate,
-    );
-  }
-});
+      counterElement.textContent = counter.toFixed(2);
+      growthRateElement.textContent = growthRate.toFixed(2);
+      countElements[i].textContent = counts[i].toString();
+      costElements[i].textContent = costs[i].toFixed(2);
+      updateUpgradeButton();
 
-upgradeCButton.addEventListener("click", () => {
-  if (counter >= costC) {
-    counter -= costC;
-    countC += 1;
-    growthRate += 50;
-    costC *= 1.15;
-    counterElement.textContent = counter.toFixed(2);
-    growthRateElement.textContent = growthRate.toFixed(2);
-    countCElement.textContent = countC.toString();
-    costCElement.textContent = costC.toFixed(2);
-    updateUpgradeButton();
-    console.log("C purchased! Count:", countC, "Growth rate:", growthRate);
-  }
-});
+      console.log(
+        `${item.name} purchased! Count: ${counts[i]}, New cost: ${
+          costs[i].toFixed(2)
+        }, Growth rate: ${growthRate}`,
+      );
+    }
+  });
+}
 
 function animate(timestamp: number) {
   if (lastTimestamp !== 0) {
