@@ -10,28 +10,62 @@ interface Item {
   name: string;
   cost: number;
   rate: number;
+  description: string;
 }
 
 const availableItems: Item[] = [
-  { name: "Retweet Bot", cost: 10, rate: 0.1 },
-  { name: "Influencer", cost: 100, rate: 2.0 },
-  { name: "Algorithm", cost: 1000, rate: 50 },
+  {
+    name: "Retweet Bot",
+    cost: 10,
+    rate: 0.1,
+    description: "Automatically retweets your posts every 10 seconds", // NEW
+  },
+  {
+    name: "Influencer",
+    cost: 100,
+    rate: 2.0,
+    description:
+      "A micro-influencer who shares your content with their followers", // NEW
+  },
+  {
+    name: "Algorithm",
+    cost: 1000,
+    rate: 50,
+    description:
+      "Manipulates the recommendation algorithm to boost your visibility", // NEW
+  },
+  // TWO NEW ITEMS BELOW:
+  {
+    name: "Viral Trend",
+    cost: 5000,
+    rate: 200,
+    description: "Starts a viral challenge that mentions your account",
+  },
+  {
+    name: "Celebrity Shoutout",
+    cost: 25000,
+    rate: 1000,
+    description: "A verified celebrity endorses your content to millions",
+  },
 ];
 
 let counter: number = 0;
 let growthRate: number = 0;
 let lastTimestamp: number = 0;
 
-const counts: number[] = [0, 0, 0];
-const costs: number[] = [10, 100, 1000];
+const counts: number[] = availableItems.map(() => 0);
+const costs: number[] = availableItems.map((item) => item.cost);
 
 // LOOP to generate button HTML
 let upgradeButtonsHTML = "";
 for (let i = 0; i < availableItems.length; i++) {
   const item = availableItems[i];
   upgradeButtonsHTML += `
-    <button id="upgrade${i}" disabled>${item.name} (Cost: <span id="cost${i}">${item.cost}</span> likes, Rate: +${item.rate}/sec)</button>
-    <br>
+    <button id="upgrade${i}" disabled>
+    ${item.name} (Cost: <span id="cost${i}">${item.cost}</span> likes, Rate: +${item.rate}/sec)
+    <br><span style="font-size: 12px; color: gray;">${item.description}</span>
+  </button>
+  <br>
   `;
 }
 
