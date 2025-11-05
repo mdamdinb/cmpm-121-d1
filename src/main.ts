@@ -5,14 +5,13 @@ document.body.innerHTML = `
   <p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>
 `;
 
-//game data
+// === Game Data ===
 interface Item {
   name: string;
   cost: number;
   rate: number;
   description: string;
 }
-//game data
 const availableItems: Item[] = [
   {
     name: "Retweet Bot",
@@ -47,14 +46,13 @@ const availableItems: Item[] = [
     description: "A verified celebrity endorses your content to millions",
   },
 ];
-//game data
 let counter: number = 0;
 let growthRate: number = 0;
 let lastTimestamp: number = 0;
-
 const counts: number[] = availableItems.map(() => 0);
 const costs: number[] = availableItems.map((item) => item.cost);
 
+// === UI Generation ===
 // LOOP to generate button HTML
 let upgradeButtonsHTML = "";
 for (let i = 0; i < availableItems.length; i++) {
@@ -67,7 +65,6 @@ for (let i = 0; i < availableItems.length; i++) {
   <br>
   `;
 }
-
 document.body.innerHTML = `
   <h1>TikTak Likes Farm</h1>
   <p>Likes: <span id="counter">0</span></p>
@@ -79,7 +76,6 @@ document.body.innerHTML = `
   <p>Growth Rate: <span id="growth-rate">0.00</span> likes/sec</p>
 `;
 
-// LOOP to generate stats HTML
 for (let i = 0; i < availableItems.length; i++) {
   const item = availableItems[i];
   document.body.innerHTML +=
@@ -89,10 +85,10 @@ for (let i = 0; i < availableItems.length; i++) {
 document.body.innerHTML +=
   `<p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>`;
 
+// === DOM References ===  
 const button = document.getElementById("increment")!;
 const counterElement = document.getElementById("counter")!;
 const growthRateElement = document.getElementById("growth-rate")!;
-
 const upgradeButtons: HTMLButtonElement[] = [];
 const costElements: HTMLElement[] = [];
 const countElements: HTMLElement[] = [];
@@ -110,13 +106,13 @@ function updateUpgradeButton() { //
   }
 }
 
+// === Event Listeners ===
 button.addEventListener("click", () => {
   counter += 1;
   counterElement.textContent = counter.toString();
   console.log("clicked", button, counterElement, counter);
 });
 
-//to purchase upgrade
 for (let i = 0; i < availableItems.length; i++) {
   upgradeButtons[i].addEventListener("click", () => {
     if (counter >= costs[i]) {
@@ -141,21 +137,22 @@ for (let i = 0; i < availableItems.length; i++) {
   });
 }
 
+// === Game Loop ===
 function animate(timestamp: number) {
   if (lastTimestamp !== 0) {
-    const deltaTime = timestamp - lastTimestamp; //time in milliseconds
-    const increment = (deltaTime / 1000) * growthRate; //convert it into seconds
+    const deltaTime = timestamp - lastTimestamp; 
+    const increment = (deltaTime / 1000) * growthRate; 
     counter += increment;
-    counterElement.textContent = counter.toFixed(2); //2 decimal places
-    updateUpgradeButton(); //checks if the button should be enabled/disabled
+    counterElement.textContent = counter.toFixed(2);
+    updateUpgradeButton(); 
   }
 
   lastTimestamp = timestamp;
   requestAnimationFrame(animate);
 }
 
-//starts here
+
 requestAnimationFrame(animate);
 
-//initail button state
+
 updateUpgradeButton();
