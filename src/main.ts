@@ -1,5 +1,14 @@
-import exampleIconUrl from "./noun-paperclip-7598668-00449F.png";
 import "./style.css";
+
+/* UI Improvements
+1. Centered layout and clean button design
+   Inspired by: [Banana Game - https://github.com/mrpoopers/D1rich/tree/main/src]
+   - Centered game elements using flexbox
+   - Borderless main click button for cleaner look
+2. Dynamic upgrade button states (enabled/disabled based on affordability)
+   Inspired by: [Bryce Han's Monke Game - https://github.com/BHan2002/cmpm-121-f25-d1]
+   - Buttons visually change when player can afford upgrades
+   - Uses disabled state and CSS styling for feedback*/
 
 // === Game Data ===
 interface Item {
@@ -64,11 +73,11 @@ for (let i = 0; i < availableItems.length; i++) {
 document.body.innerHTML = `
   <h1>TikTak Likes Farm</h1>
   <p>Likes: <span id="counter">0</span></p>
-  <button id="increment" style="font-size: 48px; padding: 20px;">❤️</button>
-  <p style="font-size: 12px; color: gray;">Click to generate likes!</p>
-  <br><br>
+  <button id="increment">❤️</button>
+  <p class="helper-text">Click to generate likes!</p>
   <br><br>
   ${upgradeButtonsHTML}
+  <br><br>
   <p>Growth Rate: <span id="growth-rate">0.00</span> likes/sec</p>
 `;
 
@@ -77,9 +86,6 @@ for (let i = 0; i < availableItems.length; i++) {
   document.body.innerHTML +=
     `<p>${item.name}s purchased: <span id="count${i}">0</span></p>`;
 }
-
-document.body.innerHTML +=
-  `<p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>`;
 
 // === DOM References ===
 const button = document.getElementById("increment")!;
