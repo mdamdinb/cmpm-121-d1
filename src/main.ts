@@ -4,37 +4,36 @@ import "./style.css";
 document.body.innerHTML = `
   <p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>
 `;
-console.log("ello :3");
 
+//game data
 interface Item {
   name: string;
   cost: number;
   rate: number;
   description: string;
 }
-
+//game data
 const availableItems: Item[] = [
   {
     name: "Retweet Bot",
     cost: 10,
     rate: 0.1,
-    description: "Automatically retweets your posts every 10 seconds", // NEW
+    description: "Automatically retweets your posts every 10 seconds", 
   },
   {
     name: "Influencer",
     cost: 100,
     rate: 2.0,
     description:
-      "A micro-influencer who shares your content with their followers", // NEW
+      "A micro-influencer who shares your content with their followers", 
   },
   {
     name: "Algorithm",
     cost: 1000,
     rate: 50,
     description:
-      "Manipulates the recommendation algorithm to boost your visibility", // NEW
+      "Manipulates the recommendation algorithm to boost your visibility", 
   },
-  // TWO NEW ITEMS BELOW:
   {
     name: "Viral Trend",
     cost: 5000,
@@ -48,7 +47,7 @@ const availableItems: Item[] = [
     description: "A verified celebrity endorses your content to millions",
   },
 ];
-
+//game data
 let counter: number = 0;
 let growthRate: number = 0;
 let lastTimestamp: number = 0;
@@ -105,7 +104,7 @@ for (let i = 0; i < availableItems.length; i++) {
   costElements.push(document.getElementById(`cost${i}`)!);
   countElements.push(document.getElementById(`count${i}`)!);
 }
-function updateUpgradeButton() { //have to wait till 10 sec
+function updateUpgradeButton() { //
   for (let i = 0; i < availableItems.length; i++) {
     upgradeButtons[i].disabled = counter < costs[i];
   }
