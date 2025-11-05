@@ -8,7 +8,7 @@ This project incorporates design improvements inspired by classmates' submission
 
 ### 1. Centered Layout & Borderless Button Design
 
-**Inspired by:** [Banana Game - https://github.com/mrpoopers/D1rich/tree/main/src]
+**Inspired by:** [Banana Game - https://github.com/mrpoopers/D1rich]
 
 - Implemented centered flexbox layout for all game elements
 - Removed borders from the main click button for a cleaner, more modern look
