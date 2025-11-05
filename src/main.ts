@@ -18,21 +18,21 @@ const availableItems: Item[] = [
     name: "Retweet Bot",
     cost: 10,
     rate: 0.1,
-    description: "Automatically retweets your posts every 10 seconds", 
+    description: "Automatically retweets your posts every 10 seconds",
   },
   {
     name: "Influencer",
     cost: 100,
     rate: 2.0,
     description:
-      "A micro-influencer who shares your content with their followers", 
+      "A micro-influencer who shares your content with their followers",
   },
   {
     name: "Algorithm",
     cost: 1000,
     rate: 50,
     description:
-      "Manipulates the recommendation algorithm to boost your visibility", 
+      "Manipulates the recommendation algorithm to boost your visibility",
   },
   {
     name: "Viral Trend",
