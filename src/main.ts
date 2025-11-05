@@ -85,7 +85,7 @@ for (let i = 0; i < availableItems.length; i++) {
 document.body.innerHTML +=
   `<p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>`;
 
-// === DOM References ===  
+// === DOM References ===
 const button = document.getElementById("increment")!;
 const counterElement = document.getElementById("counter")!;
 const growthRateElement = document.getElementById("growth-rate")!;
@@ -140,19 +140,17 @@ for (let i = 0; i < availableItems.length; i++) {
 // === Game Loop ===
 function animate(timestamp: number) {
   if (lastTimestamp !== 0) {
-    const deltaTime = timestamp - lastTimestamp; 
-    const increment = (deltaTime / 1000) * growthRate; 
+    const deltaTime = timestamp - lastTimestamp;
+    const increment = (deltaTime / 1000) * growthRate;
     counter += increment;
     counterElement.textContent = counter.toFixed(2);
-    updateUpgradeButton(); 
+    updateUpgradeButton();
   }
 
   lastTimestamp = timestamp;
   requestAnimationFrame(animate);
 }
 
-
 requestAnimationFrame(animate);
-
 
 updateUpgradeButton();
